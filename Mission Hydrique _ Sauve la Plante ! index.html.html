@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mission Hydrique : Sauve la plante !</title>
+<style>
+:root{--bg:#e6f5ec;--bg2:#d3ecfa;--card:#fff;--tx:#16352a;--mu:#58756a;--g:#2e9d5b;--b:#2a8fd0;--e:#8a5a33;--ok:#1f9d55;--ko:#d6453d;--bd:#c9e0d2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e2118;--bg2:#0c2535;--card:#17332a;--tx:#e6f4ea;--mu:#9bbbac;--bd:#2a4a3d;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e2118;--bg2:#0c2535;--card:#17332a;--tx:#e6f4ea;--mu:#9bbbac;--bd:#2a4a3d;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background-color:var(--bg);background-image:linear-gradient(160deg,var(--bg),var(--bg2));background-attachment:fixed;min-height:100vh}
+#app{max-width:760px;margin:0 auto;padding:12px}
+header{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:10px 12px;margin-bottom:14px}
+.me{display:flex;align-items:center;gap:10px;margin-bottom:6px}.me small{display:block;color:var(--mu)}
+.av{font-size:30px;cursor:pointer;background:var(--bg2);border-radius:50%;width:46px;height:46px;display:grid;place-items:center}
+.bar{height:12px;background:var(--bd);border-radius:9px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g),var(--b));border-radius:9px;transition:width .5s}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+nav button{flex:1;min-width:64px;font-size:13px;padding:7px 4px;border:0;border-radius:10px;background:var(--bg2);color:var(--tx);cursor:pointer;font-weight:600}
+h1{font-size:28px;margin:8px 0}h2{margin:6px 0 12px;font-size:21px}h3{margin:16px 0 6px}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:12px}
+.center{text-align:center}.mu{color:var(--mu)}.big{font-size:48px;font-weight:800;color:var(--g)}
+.tag{display:inline-block;background:var(--b);color:#fff;border-radius:9px;padding:2px 10px;font-size:12px;font-weight:700}
+.btn{border:2px solid var(--g);background:transparent;color:var(--tx);padding:10px 18px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer}
+.btn.p{background:var(--g);color:#fff}.row{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:12px}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opt{text-align:left;padding:12px 14px;border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:12px;font-size:16px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--b)}.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}.opt.ko{background:var(--ko);border-color:var(--ko);color:#fff}
+.fb{border-radius:12px;padding:10px 14px;margin-top:8px}.fb.ok{background:rgba(31,157,85,.15)}.fb.ko{background:rgba(214,69,61,.15)}.fb p{margin:6px 0 10px}
+.top{display:flex;justify-content:space-between;margin-bottom:4px}
+.hero{text-align:center;padding:20px 4px}.logo{font-size:56px}
+.avs{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px;margin:10px auto}
+.avb{background:var(--card);border:2px solid var(--bd);color:var(--tx);border-radius:16px;padding:14px;font-weight:700;cursor:pointer}.avb span{display:block;font-size:42px}.avb:hover{border-color:var(--g)}
+.lvs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.lv{background:var(--card);border:2px solid var(--bd);border-radius:16px;padding:12px;color:var(--tx);cursor:pointer;text-align:center}
+.lv .n{display:grid;place-items:center;width:42px;height:42px;margin:0 auto 6px;border-radius:50%;background:var(--b);color:#fff;font-weight:800}
+.lv b{display:block}.lv small{color:var(--mu)}.lv.done{border-color:var(--g)}.lv.done .n{background:var(--g)}.lv.lock{opacity:.5;cursor:not-allowed}.lv.lock .n{background:var(--e)}
+.mt{display:grid;grid-template-columns:1fr 1.4fr;gap:14px}.col{display:grid;gap:8px;align-content:start}
+.chip,.zone{padding:11px;border-radius:12px;text-align:center;font-weight:700}
+.chip{background:var(--b);color:#fff;cursor:grab;user-select:none}.chip.sel{outline:3px solid var(--e)}.chip.used{opacity:.3}
+.zone{border:2px dashed var(--e);background:var(--bg2)}.zone.ok{border-style:solid;border-color:var(--ok);background:rgba(31,157,85,.2)}
+.fc{perspective:1000px;height:210px;cursor:pointer}.fi{position:relative;height:100%;transition:transform .5s;transform-style:preserve-3d}.flip .fi{transform:rotateY(180deg)}
+.ff,.fb2{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;border-radius:18px;font-size:22px;font-weight:700;border:2px solid var(--bd)}
+.ff{background:var(--card)}.ff small{font-size:13px;color:var(--mu);font-weight:400;margin-top:8px}.fb2{background:var(--g);color:#fff;transform:rotateY(180deg);font-size:18px}
+.stats,.bds{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.st,.bg{background:var(--card);border:2px solid var(--bd);border-radius:14px;padding:10px;text-align:center}.st span,.bg span{font-size:28px;display:block}.st b,.bg b{display:block}.st small,.bg small{color:var(--mu)}.bg.off{opacity:.4;filter:grayscale(1)}
+.field{position:relative;height:360px;overflow:hidden;border-radius:18px;border:2px solid var(--bd);background:linear-gradient(var(--bg2),var(--bg) 70%,var(--e))}
+.dr{position:absolute;font-size:38px;cursor:pointer;touch-action:manipulation;user-select:none}.pl{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);font-size:44px}
+#qb{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:12px;z-index:50;overflow:auto}#qb:empty{display:none}#qb .card{width:100%;max-width:560px;margin:auto}
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--g);color:#fff;padding:7px 16px;border-radius:99px;font-weight:800;z-index:99;animation:up 1.5s forwards;pointer-events:none}.toast.ko{background:var(--ko)}.toast.lv{background:var(--b)}
+@keyframes up{0%{opacity:0;top:95px}15%{opacity:1}80%{opacity:1}100%{opacity:0;top:50px}}
+.cf{position:fixed;top:-30px;font-size:26px;z-index:98;animation:fall 2.6s linear forwards;pointer-events:none}@keyframes fall{to{top:105vh;transform:rotate(360deg)}}
+.pop{animation:pp .35s}@keyframes pp{from{transform:scale(.9);opacity:0}}.shake{animation:sk .4s}@keyframes sk{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@media (max-width:480px){h1{font-size:23px}.mt{grid-template-columns:1fr 1.2fr}}
+</style></head><body><div id="app"></div>
+<script>
+const $=s=>document.querySelector(s),app=$('#app'),cleanups=[];
+const R=a=>a[Math.floor(Math.random()*a.length)],sh=a=>a.map(x=>[Math.random(),x]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);
+const init=()=>({av:'',xp:0,lv:{},bd:[],a:0,c:0,t:0,seen:[]});
+function load(){try{return Object.assign(init(),JSON.parse(localStorage.getItem('mh1')||'{}'))}catch(e){return init()}}
+let S=load();const save=()=>{try{localStorage.setItem('mh1',JSON.stringify(S))}catch(e){}};
+const RK=[[0,'Débutant'],[100,'Jeune plantule'],[300,'Plante vigoureuse'],[700,'Expert hydrique'],[1001,'Maître de l’eau']];
+const rk=()=>{let r=0;RK.forEach((x,i)=>{if(S.xp>=x[0])r=i});return r};
+const pr=()=>{const i=rk(),n=RK[i+1];return n?(S.xp-RK[i][0])/(n[0]-RK[i][0])*100:100};
+const LV=['Cycle de l’eau','Structure cellulaire','Métabolisme','Transport des ions','Turgescence','Croissance','Teneur en eau','La molécule d’eau'];
+const BD=[['cyc','💧','Expert du cycle de l’eau','Niveau 1 à 80 % ou plus'],['tur','🌱','Maître de la turgescence','Niveau 5 à 80 % ou plus'],['met','🧪','As du métabolisme','Niveau 3 à 80 % ou plus'],['rev','📚','Révision parfaite','Retourne toutes les cartes mémoire'],['sf','⚡','Sans faute','Un niveau ou un quiz à 100 %']];
+const B=[],q=(l,t,o,a,e)=>B.push({l,q:t,o,a,e}),v=(l,t,b,e)=>B.push({l,q:t,o:['Vrai','Faux'],a:b?0:1,e,v:1});
+// Niveau 1 : cycle de l’eau
+q(0,'Quel phénomène regroupe l’évaporation du sol et la transpiration des plantes ?',['L’évapotranspiration','Les précipitations','L’infiltration','La condensation'],0,'L’évapotranspiration = évaporation (sol) + transpiration (végétaux) : l’eau retourne à l’atmosphère.');
+q(0,'La pluie, la neige et la grêle sont des…',['Évaporations','Précipitations','Évapotranspirations','Transpirations'],1,'Les précipitations font passer l’eau de l’atmosphère vers le sol.');
+v(0,'L’eau circule entre l’atmosphère, le sol et les végétaux.',1,'C’est le cycle général de l’eau : un va-et-vient permanent entre ces compartiments.');
+q(0,'Quel compartiment reçoit les précipitations avant que les racines ne s’en servent ?',['L’atmosphère','Les feuilles','Le sol','Les graines'],2,'Les précipitations arrivent au sol, qui sert de réserve d’eau pour les racines.');
+v(0,'L’évaporation fait passer l’eau de l’état vapeur à l’état liquide.',0,'Faux : l’évaporation fait passer l’eau de l’état liquide à l’état vapeur.');
+q(0,'Par où l’eau du sol entre-t-elle dans la plante ?',['Les stomates','Les racines','Les fleurs','Les graines'],1,'Les racines absorbent l’eau du sol ; elle repart ensuite vers l’atmosphère par les feuilles.');
+v(0,'Les végétaux sont un maillon du cycle de l’eau.',1,'Ils prélèvent l’eau du sol et en rejettent par évapotranspiration.');
+// Niveau 2 : structure cellulaire
+q(1,'Parmi ces rôles, lequel est assuré par l’eau dans la cellule ?',['Maintien de la structure cellulaire','Production de lumière','Fabrication de l’ADN','Stockage du CO₂ gazeux'],0,'L’eau maintient la structure des cellules végétales.');
+v(1,'L’eau constitue le milieu dans lequel se déroulent les réactions métaboliques.',1,'Vrai : la cellule est un milieu aqueux où les réactions ont lieu.');
+v(1,'Une cellule végétale conserve sa structure même sans eau.',0,'Faux : sans eau, la structure cellulaire n’est plus maintenue.');
+q(1,'Dans la cellule, l’eau est surtout…',['Un déchet','Le milieu des réactions','Un gaz','Un pigment'],1,'L’eau est le milieu des réactions métaboliques.');
+q(1,'Quel rôle de l’eau est lié à la forme et à la tenue des cellules ?',['Structure cellulaire','Photopériode','Pollinisation','Dormance'],0,'La structure cellulaire dépend de l’eau.');
+v(1,'L’eau n’a aucun rôle structural dans la plante.',0,'Faux : elle maintient la structure cellulaire.');
+// Niveau 3 : métabolisme
+q(2,'Le catabolisme correspond à…',['La synthèse de molécules','La dégradation de molécules','La pollinisation','L’évaporation'],1,'Catabolisme = dégradation de molécules (libère de l’énergie).');
+q(2,'L’anabolisme correspond à…',['La dégradation de molécules','La synthèse de molécules','La perte d’eau','Le transport des ions'],1,'Anabolisme = synthèse de molécules complexes.');
+v(2,'L’eau participe au catabolisme.',1,'Vrai : l’eau intervient dans les réactions de dégradation.');
+v(2,'L’eau participe à l’anabolisme.',1,'Vrai : l’eau intervient aussi dans les réactions de synthèse.');
+q(2,'Catabolisme + anabolisme =',['La transpiration','Le métabolisme','La turgescence','Le cycle de l’eau'],1,'L’ensemble des réactions de dégradation et de synthèse forme le métabolisme.');
+v(2,'L’eau intervient uniquement dans le catabolisme.',0,'Faux : elle participe au catabolisme ET à l’anabolisme.');
+q(2,'L’eau est le … des réactions métaboliques.',['Milieu','Produit final unique','Catalyseur gazeux','Pigment'],0,'Les réactions métaboliques se déroulent en milieu aqueux.');
+// Niveau 4 : transport des ions
+q(3,'Quel symbole correspond au potassium ?',['Ca²⁺','K⁺','NH₄⁺','NO₃⁻'],1,'K⁺ = ion potassium.');
+q(3,'NO₃⁻ est l’ion…',['Nitrate','Ammonium','Sulfate','Calcium'],0,'NO₃⁻ = nitrate (anion).');
+q(3,'Laquelle de ces molécules est organique et transportée par l’eau ?',['Le malate','K⁺','Ca²⁺','NH₄⁺'],0,'Malate, citrate et sucres sont des molécules organiques ; K⁺, Ca²⁺, NH₄⁺ sont des ions minéraux.');
+v(3,'L’eau transporte des ions minéraux.',1,'Vrai : K⁺, Ca²⁺, NH₄⁺, NO₃⁻, SO₄²⁻…');
+q(3,'SO₄²⁻ est l’ion…',['Sulfate','Nitrate','Potassium','Ammonium'],0,'SO₄²⁻ = sulfate.');
+v(3,'Le citrate est un ion minéral.',0,'Faux : le citrate est une molécule organique.');
+q(3,'NH₄⁺ est l’ion…',['Ammonium','Nitrate','Calcium','Sulfate'],0,'NH₄⁺ = ammonium (cation).');
+v(3,'Les sucres font partie des molécules organiques transportées par l’eau.',1,'Vrai : sucres, malate et citrate.');
+// Niveau 5 : turgescence
+q(4,'L’eau génère dans les cellules la…',['Pression de turgescence','Pression atmosphérique','Photosynthèse','Dormance'],0,'L’eau génère la pression de turgescence.');
+q(4,'La turgescence contribue à…',['La couleur des fleurs','Le port érigé de la plante','La formation des graines','Le catabolisme'],1,'Des cellules gonflées d’eau rigidifient les tissus : la plante reste droite.');
+v(4,'Une plante qui manque d’eau perd sa turgescence et s’affaisse.',1,'Vrai : sans pression de turgescence, le port érigé n’est plus tenu.');
+v(4,'La pression de turgescence est exercée par l’eau à l’intérieur des cellules.',1,'Vrai : c’est la pression exercée par l’eau qui maintient la rigidité des cellules.');
+q(4,'« Port érigé » signifie que la plante…',['Se tient droite','Est submergée','Perd ses feuilles','Produit des graines'],0,'Le port érigé = plante dressée, soutenue par la turgescence.');
+q(4,'Une cellule turgescente est…',['Flasque','Rigide et gonflée d’eau','Desséchée','Sans paroi'],1,'Elle est gonflée d’eau et rigide.');
+v(4,'La turgescence n’a aucun lien avec le port de la plante.',0,'Faux : elle contribue au port érigé.');
+// Niveau 6 : croissance
+q(5,'L’eau permet l’expansion…',['Cellulaire','Atmosphérique','Minérale','Gazeuse'],0,'L’eau permet l’expansion des cellules.');
+q(5,'L’élongation correspond à…',['Un allongement','Un rétrécissement','Une évaporation','Une synthèse d’ions'],0,'Élongation = allongement des cellules/organes ; l’eau y contribue.');
+v(5,'L’eau participe à la croissance des plantes.',1,'Vrai : expansion cellulaire, élongation, croissance.');
+v(5,'Une plante peut croître normalement sans eau.',0,'Faux : l’expansion cellulaire dépend de l’eau.');
+q(5,'Qu’est-ce qui permet l’expansion des cellules végétales ?',['L’eau','Le vent','Le CO₂ seul','La grêle'],0,'L’eau permet l’expansion cellulaire.');
+v(5,'L’élongation contribue à la croissance.',1,'Vrai : l’allongement des cellules fait grandir la plante.');
+// Niveau 7 : teneur en eau
+q(6,'Dans une feuille, la teneur en eau est de :',['20 %','40 %','70 à 90 %','100 %'],2,'Les feuilles contiennent 70 à 90 % d’eau.');
+q(6,'Graines et pollen contiennent :',['70 à 90 % d’eau','Quelques % à 30 % d’eau','100 % d’eau','Aucune eau'],1,'Graines et pollen : de quelques % à 30 % d’eau.');
+v(6,'Les feuilles contiennent plus d’eau que les graines.',1,'Vrai : 70–90 % contre quelques % à 30 %.');
+v(6,'Une graine contient en général 80 % d’eau.',0,'Faux : quelques % à 30 % seulement.');
+q(6,'Quel organe est le plus riche en eau ?',['Feuille','Graine','Pollen','Graine sèche'],0,'La feuille (70 à 90 %).');
+v(6,'Le pollen contient de quelques % à 30 % d’eau.',1,'Vrai, comme les graines.');
+q(6,'« 70 à 90 % d’eau » caractérise…',['Les feuilles','Les graines','Le pollen','Les spores'],0,'Valeur typique des feuilles.');
+// Niveau 8 : molécule d’eau
+q(7,'1 litre d’eau pure contient environ…',['5,5 moles','55,5 moles','555 moles','0,55 mole'],1,'1000 g ÷ ~18 g/mol ≈ 55,5 mol.');
+q(7,'Masse atomique de l’hydrogène :',['1,00794 g/mol','15,9994 g/mol','18 g/mol','55,5 g/mol'],0,'H = 1,00794 g/mol.');
+q(7,'Masse atomique de l’oxygène :',['1,00794 g/mol','15,9994 g/mol','2 g/mol','12 g/mol'],1,'O = 15,9994 g/mol.');
+v(7,'L’eau possède un faible poids moléculaire.',1,'Vrai : environ 18 g/mol.');
+v(7,'L’eau est présente à très faible concentration.',0,'Faux : très forte concentration (≈ 55,5 mol/L).');
+q(7,'Masse molaire de H₂O (2 H + 1 O) ≈',['18 g/mol','16 g/mol','2 g/mol','34 g/mol'],0,'2 × 1,00794 + 15,9994 ≈ 18,02 g/mol.');
+v(7,'1 litre d’eau pure contient environ 5,55 moles d’eau.',0,'Faux : environ 55,5 moles.');
+q(7,'Avec ≈ 55,5 mol/L, l’eau est présente…',['À très forte concentration','À l’état de traces','Uniquement dans les feuilles','À concentration nulle'],0,'Forte concentration + faible poids moléculaire.');
+const CD=[['Turgescence','Pression exercée par l’eau qui maintient la rigidité des cellules végétales.'],['Évapotranspiration','Évaporation de l’eau du sol + transpiration des végétaux.'],['Catabolisme','Dégradation de molécules : l’eau y participe.'],['Anabolisme','Synthèse de molécules : l’eau y participe aussi.'],['Élongation','Allongement des cellules, permis par l’expansion cellulaire due à l’eau.'],['Port érigé','Plante qui se tient droite grâce à la pression de turgescence.'],['Refroidissement des feuilles','L’évaporation refroidit les feuilles ; les stomates s’ouvrent et se ferment.'],['Teneur en eau des feuilles','70 à 90 %'],['Teneur en eau graines / pollen','De quelques % à 30 %'],['Moles dans 1 L d’eau pure','≈ 55,5 moles'],['Ions minéraux transportés','K⁺, Ca²⁺, NH₄⁺, NO₃⁻, SO₄²⁻'],['Molécules organiques transportées','Sucres, malate, citrate']];
+function pop(m,c){const t=document.createElement('div');t.className='toast '+(c||'');t.textContent=m;t.style.marginTop=document.querySelectorAll('.toast').length*38+'px';document.body.appendChild(t);setTimeout(()=>t.remove(),1500)}
+function confetti(){for(let i=0;i<36;i++){const s=document.createElement('span');s.className='cf';s.textContent=R(['💧','🌱','🍃','⭐','🌾']);s.style.left=Math.random()*100+'%';s.style.animationDelay=Math.random()*.8+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3600)}}
+function gb(id){if(!S.bd.includes(id)){S.bd.push(id);const b=BD.find(x=>x[0]==id);pop('Badge '+b[1]+' '+b[2],'lv');confetti();save()}}
+function hud(){const x=$('#hx'),b=$('#hb');if(x)x.textContent=S.xp;if(b)b.style.width=pr()+'%'}
+function award(g,ex){ex=ex||0;const r0=rk();S.a++;if(g){S.c++;S.xp+=20+ex;pop('+'+(20+ex)+' XP')}else{S.xp=Math.max(0,S.xp-5);pop('−5 XP','ko')}if(g&&rk()!=r0)pop('Nouveau rang : '+RK[rk()][1],'lv');save();hud()}
+function shell(h){const i=rk(),n=RK[i+1];app.innerHTML=`<header><div class="me"><span class="av" onclick="S.av='';home()" title="Changer d’avatar">${S.av}</span><div><b>${RK[i][1]}</b><small><span id="hx">${S.xp}</span> XP${n?' · prochain rang : '+(n[0]>1000?'>1000':n[0]):''}</small></div></div><div class="bar"><i id="hb" style="width:${pr()}%"></i></div><nav><button onclick="G('map')">🗺️ Aventure</button><button onclick="G('quiz')">⏱️ Quiz</button><button onclick="G('cards')">🃏 Cartes</button><button onclick="G('game')">💧 Jeu</button><button onclick="G('dash')">📊 Bilan</button></nav></header><main>${h}</main>`;window.scrollTo(0,0)}
+function ask(box,it,cb,tm){const o=it.o.map((t,i)=>[t,i]),opts=it.v?o:sh(o);
+box.innerHTML=`<div class="card pop"><span class="tag">${it.v?'Vrai ou faux ?':'QCM'}</span><h2>${it.q}</h2>${tm?'<div class="bar"><i id="tb" style="width:100%"></i></div>':''}<div class="opts">${opts.map(a=>`<button class="opt" data-i="${a[1]}">${a[0]}</button>`).join('')}</div><div id="fb"></div></div>`;
+let done=0,rem=tm||0,iv;
+const fin=i=>{if(done)return;done=1;clearInterval(iv);const g=i==it.a,ex=(g&&tm)?Math.ceil(rem/3):0;award(g,ex);
+box.querySelectorAll('.opt').forEach(b=>{b.disabled=true;const k=+b.dataset.i;if(k==it.a)b.classList.add('ok');else if(k==i)b.classList.add('ko')});
+box.querySelector('#fb').innerHTML=`<div class="fb ${g?'ok':'ko'}"><b>${i<0?'⏰ Temps écoulé ! −5 XP':g?'✅ Bravo ! +'+(20+ex)+' XP'+(ex?' (bonus temps +'+ex+')':''):'❌ Raté ! −5 XP'}</b><p>${it.e}</p><button class="btn p" id="nx">Suivant ➜</button></div>`;
+box.querySelector('#nx').onclick=()=>cb(g);if(!g)box.firstChild.classList.add('shake')};
+box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>fin(+b.dataset.i));
+if(tm){const tb=box.querySelector('#tb');iv=setInterval(()=>{rem-=.1;tb.style.width=Math.max(rem,0)/tm*100+'%';if(rem<=0)fin(-1)},100);cleanups.push(()=>clearInterval(iv))}}
+function G(n){cleanups.splice(0).forEach(f=>f());({map,quiz,cards,game,dash,fin})[n]()}
+function home(){app.innerHTML=`<div class="hero"><div class="logo">💧🌱</div><h1>Mission Hydrique : Sauve la plante !</h1><p class="mu">8 niveaux, des XP, des badges… Révise la nutrition hydrique chez les végétaux en t’amusant.</p><h3>Choisis ton avatar</h3><div class="avs">${[['🥕','Racine'],['🍃','Feuille'],['💧','Goutte d’eau'],['🌰','Graine']].map(a=>`<button class="avb" onclick="S.av='${a[0]}';save();G('map')"><span>${a[0]}</span>${a[1]}</button>`).join('')}</div></div>`}
+function map(){const un=i=>i==0||S.lv[i-1]>=60;shell(`<h2>🗺️ Carte de l’aventure</h2><p class="mu">Réussis un niveau à 60 % pour débloquer le suivant.</p><div class="lvs">${LV.map((n,i)=>{const s=S.lv[i],u=un(i);return `<button class="lv ${u?'':'lock'} ${s>=60?'done':''}" ${u?`onclick="level(${i})"`:'disabled'}><span class="n">${u?i+1:'🔒'}</span><b>${n}</b><small>${s!=null?'⭐'.repeat(s>=100?3:s>=80?2:s>=60?1:0)+' '+s+' %':u?'À jouer':'Verrouillé'}</small></button>`}).join('')}</div>`)}
+function level(i){const L=sh(B.filter(x=>x.l==i)),tot=L.length+(i==3?5:0);let k=0,ok=0;
+const step=()=>{if(k<L.length){shell(`<div class="top"><b>Niveau ${i+1} · ${LV[i]}</b><span>${k+1}/${tot}</span></div><div class="bar"><i style="width:${k/tot*100}%"></i></div><div id="bx"></div>`);ask($('#bx'),L[k],g=>{if(g)ok++;k++;step()})}
+else if(i==3&&k==L.length){match(g=>{ok+=g;k+=5;step()})}else end()};
+const end=()=>{const p=Math.round(ok/tot*100);if(p>(S.lv[i]||0))S.lv[i]=p;if(p>=80){if(i==0)gb('cyc');if(i==4)gb('tur');if(i==2)gb('met')}if(p==100)gb('sf');save();const w=p>=60;
+shell(`<div class="card center pop"><h2>${w?'🎉 Niveau réussi !':'💪 Presque !'}</h2><div class="big">${p} %</div><p>${ok}/${tot} bonnes réponses</p><p>${w?(i<7?'Niveau '+(i+2)+' débloqué !':'Dernier niveau terminé !'):'Il faut 60 % pour débloquer la suite. Réessaie !'}</p><div class="row"><button class="btn" onclick="level(${i})">Rejouer</button><button class="btn p" onclick="G('${w&&i==7?'fin':'map'}')">${w&&i==7?'Fin de parcours 🏆':'Retour à la carte'}</button></div></div>`);if(w)confetti()};
+step()}
+function match(cb){const P=[['K⁺','Potassium'],['NO₃⁻','Nitrate'],['Ca²⁺','Calcium'],['NH₄⁺','Ammonium'],['SO₄²⁻','Sulfate']];
+shell(`<div class="card pop"><span class="tag">Glisser-déposer</span><h2>Associe chaque ion à son nom</h2><p class="mu">Glisse l’ion sur son nom (ou touche l’ion, puis son nom).</p><div class="mt"><div class="col">${sh(P).map(p=>`<div class="chip" draggable="true" data-k="${p[0]}">${p[0]}</div>`).join('')}</div><div class="col">${sh(P).map(p=>`<div class="zone" data-k="${p[0]}">${p[1]}</div>`).join('')}</div></div></div>`);
+const C=[...app.querySelectorAll('.chip')],Z=[...app.querySelectorAll('.zone')];let cur=null,got=0,n=0,bad={};
+const tm=(c,z)=>{if(c.classList.contains('used')||z.classList.contains('ok'))return;
+if(c.dataset.k==z.dataset.k){c.classList.add('used');c.classList.remove('sel');z.classList.add('ok');z.textContent+='  ←  '+c.dataset.k;cur=null;award(1);if(!bad[c.dataset.k])got++;if(++n==5){$('.mt').insertAdjacentHTML('afterend','<div class="row"><button class="btn p" id="nx">Continuer ➜</button></div>');$('#nx').onclick=()=>cb(got)}}
+else{bad[c.dataset.k]=1;award(0);z.classList.add('shake');setTimeout(()=>z.classList.remove('shake'),400)}};
+C.forEach(c=>{c.ondragstart=e=>{cur=c;e.dataTransfer.setData('text','x')};c.onclick=()=>{if(c.classList.contains('used'))return;C.forEach(x=>x.classList.remove('sel'));c.classList.add('sel');cur=c}});
+Z.forEach(z=>{z.ondragover=e=>e.preventDefault();z.ondrop=e=>{e.preventDefault();if(cur)tm(cur,z)};z.onclick=()=>{if(cur)tm(cur,z)}})}
+function quiz(){shell(`<div class="card center"><h2>⏱️ Quiz chronométré</h2><p>10 questions tirées de tout le chapitre · 30 s par question · bonus d’XP selon le temps restant.</p><button class="btn p" onclick="runQ()">C’est parti !</button></div>`)}
+function runQ(){const L=sh(B).slice(0,10),x0=S.xp;let k=0,ok=0;const st=()=>{if(k<10){shell(`<div class="top"><b>Quiz chrono</b><span>${k+1}/10</span></div><div id="bx"></div>`);ask($('#bx'),L[k],g=>{if(g)ok++;k++;st()},30)}else{if(ok==10)gb('sf');save();const d=S.xp-x0;shell(`<div class="card center pop"><h2>🏁 Quiz terminé</h2><div class="big">${ok}/10</div><p>${d>=0?'+':''}${d} XP gagnés</p><button class="btn p" onclick="G('quiz')">Rejouer</button></div>`);if(ok>=7)confetti()}};st()}
+function cards(){let k=0;const draw=()=>{const c=CD[k];shell(`<h2>🃏 Cartes mémoire</h2><div class="fc" id="fc"><div class="fi"><div class="ff">${c[0]}<small>Touche pour retourner</small></div><div class="fb2">${c[1]}</div></div></div><div class="row"><button class="btn" id="pv">◀</button><span>${k+1}/${CD.length}</span><button class="btn" id="nx2">▶</button></div><p class="center mu">Cartes retournées : <b id="sn">${S.seen.length}</b>/${CD.length}</p>`);
+$('#fc').onclick=()=>{$('#fc').classList.toggle('flip');if(!S.seen.includes(k)){S.seen.push(k);$('#sn').textContent=S.seen.length;if(S.seen.length==CD.length)gb('rev');save()}};
+$('#pv').onclick=()=>{k=(k+CD.length-1)%CD.length;draw()};$('#nx2').onclick=()=>{k=(k+1)%CD.length;draw()}};draw()}
+function game(){shell(`<div class="card center"><h2>💧 La plante assoiffée</h2><p>Touche les gouttes pour les attraper : chacune ouvre une question (+20 XP si juste, −5 XP sinon). Trois gouttes ratées et la plante flétrit !</p><button class="btn p" onclick="runG()">Jouer</button></div>`)}
+function runG(){let lives=3,caught=0,paused=0,D=[],t=0,ended=0;shell(`<div class="top"><b id="lf">❤️❤️❤️</b><span id="cg">0 attrapée</span></div><div class="field" id="fd"><div class="pl">🌱</div></div><div id="qb"></div>`);
+const fd=$('#fd'),qb=$('#qb');
+const iv=setInterval(()=>{if(paused||ended)return;t++;
+if(t%25==1){const d=document.createElement('div');d.className='dr';d.textContent='💧';d.style.left=(Math.random()*85+2)+'%';d._y=-40;fd.appendChild(d);D.push(d);
+d.onpointerdown=()=>{if(paused||d._x)return;d._x=paused=1;caught++;d.remove();D=D.filter(z=>z!=d);$('#cg').textContent=caught+' attrapée'+(caught>1?'s':'');ask(qb,R(B),()=>{qb.innerHTML='';paused=0})}}
+D.slice().forEach(d=>{d._y+=3+caught*.15;d.style.top=d._y+'px';if(d._y>fd.clientHeight-45){d.remove();D=D.filter(z=>z!=d);lives--;$('#lf').textContent='❤️'.repeat(Math.max(lives,0))+'🖤'.repeat(3-Math.max(lives,0));if(lives<=0&&!ended){ended=1;over()}}})},40);
+cleanups.push(()=>clearInterval(iv));
+function over(){clearInterval(iv);shell(`<div class="card center pop"><div class="logo">🥀</div><h2>La plante a flétri…</h2><div class="big">${caught}</div><p>goutte${caught>1?'s':''} attrapée${caught>1?'s':''}</p><button class="btn p" onclick="runG()">Rejouer</button></div>`)}}
+const stat=()=>({dn:LV.filter((_,i)=>S.lv[i]>=60).length,rate:S.a?Math.round(S.c/S.a*100):0});
+function dash(){const{dn,rate}=stat();shell(`<h2>📊 Tableau de bord</h2><div class="stats">${[['⭐',S.xp,'Score total (XP)'],['🎯',rate+' %','Taux de réussite'],['🗺️',dn+'/8','Niveaux validés'],['🔓',Math.min(dn+1,8)+'/8','Niveaux débloqués'],['⏳',Math.floor(S.t/60)+' min '+S.t%60+' s','Temps de jeu']].map(s=>`<div class="st"><span>${s[0]}</span><b>${s[1]}</b><small>${s[2]}</small></div>`).join('')}</div><h3>Progression : ${Math.round(dn/8*100)} %</h3><div class="bar"><i style="width:${dn/8*100}%"></i></div><h3>Badges</h3><div class="bds">${BD.map(b=>`<div class="bg ${S.bd.includes(b[0])?'':'off'}"><span>${b[1]}</span><b>${b[2]}</b><small>${b[3]}</small></div>`).join('')}</div><div class="row"><button class="btn" onclick="G('fin')">🏆 Fin de parcours</button><button class="btn" onclick="rst(this)">↺ Recommencer</button></div>`)}
+function fin(){const{dn,rate}=stat();shell(dn<8?`<div class="card center"><h2>🌱 Parcours en cours</h2><p>Valide les 8 niveaux (60 %) pour terminer la mission. Il t’en reste ${8-dn}.</p><button class="btn p" onclick="G('map')">Retour à la carte</button></div>`:`<div class="card center pop"><div class="logo">🏆</div><h2>Félicitations ! Tu maîtrises les bases de la nutrition hydrique chez les végétaux.</h2><div class="big">${S.xp} XP</div><p>Réussite : <b>${rate} %</b> · Rang : <b>${RK[rk()][1]}</b></p><h3>Badges gagnés</h3><p>${S.bd.length?BD.filter(b=>S.bd.includes(b[0])).map(b=>b[1]+' '+b[2]).join('<br>'):'Aucun badge pour l’instant'}</p><button class="btn p" onclick="rst(this)">Recommencer</button></div>`);if(dn==8)confetti()}
+function rst(e){if(e.dataset.c){const a=S.av;S=init();S.av=a;save();G('map')}else{e.dataset.c=1;e.textContent='Confirmer ? (efface tout)'}}
+setInterval(()=>{if(!document.hidden&&S.av){S.t++;if(S.t%10==0)save()}},1000);
+S.av?G('map'):home();
+</script></body></html>
